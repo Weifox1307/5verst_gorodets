@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5 вёрст в парке Станкозавода | Нижний Новгород</title>
+    <title>5 вёрст Городец | Городец</title>
     <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
     <style>
         :root { --primary: #2B326D; --accent: #E6564C; --bg: #f5f5f5; --success: #4caf50; }
@@ -135,7 +135,7 @@
         <button class="btn-qr" onclick="openModal('modal_roles')">📖 Описание ролей</button>
         <button class="btn-qr" onclick="openModal('modal_guide')">📱 Гайд по приложению</button>
         <button class="btn-qr" onclick="openModal('modal_about')">🌳 О нас</button>
-        <button class="btn-qr" onclick="window.open('https://vk.com/5verstparkstankozavoda')">🌐 Наши соцсети</button>
+        <button class="btn-qr" onclick="window.open('https://vk.ru/public237912217')">🌐 Наши соцсети</button>
         <div style="text-align:center; margin-top:20px; font-size:11px; color:#999;">Версия 1.6</div>
     </div>
     <div class="close-modal">Закрыть</div>
@@ -188,10 +188,10 @@
 </div>
 <div id="modal_about" class="modal" onclick="closeModal('modal_about')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <h2 style="border:none;">5 вёрст в парке Станкозавода</h2>
+        <h2 style="border:none;">5 вёрст Городец</h2>
         <div style="font-size:14px; line-height:1.5; color:#555;">
-            Бесплатные еженедельные старты в парке Станкозавода каждую субботу в 09:00.<br><br>
-            Разработано для сообщества "5 вёрст в парке Станкозавода | Нижний Новгород".
+            Бесплатные еженедельные старты в Городце каждую субботу в 09:00.<br><br>
+            Разработано для сообщества "5 вёрст Городец | Городец".
         </div>
     </div>
     <div class="close-modal">Назад</div>
@@ -236,7 +236,7 @@
         </div>
         
         <div style="background:linear-gradient(90deg, #2B326D, #4f5ca8); color:white; padding:14px 16px; border-radius:12px; margin:12px 0 18px 0; text-align:center; font-weight:700; font-size:16px; box-shadow:0 3px 10px rgba(43,50,109,0.3);">
-            📍 <span id="park_name">Парк Станкозавода | Нижний Новгород</span>
+            📍 <span id="park_name">Центральный парк | Городец</span>
         </div>
         
         <div id="welcome_back" class="welcome-msg"></div>
@@ -281,8 +281,7 @@
             <div class="role-option" data-id="1001" data-name="Чай"><input type="checkbox"> <span>Чай</span></div>
             <div class="role-option" data-id="1002" data-name="Вкусняшки"><input type="checkbox"> <span>Вкусняшки</span></div>
             <div class="role-option" data-id="1003" data-name="Вода"><input type="checkbox"> <span>Вода</span></div>
-            <div class="role-option" data-id="1004" data-name="Оратор"><input type="checkbox"> <span>Оратор</span></div>
-            <div class="role-option" data-id="1005" data-name="Поддержка на трассе"><input type="checkbox"> <span>Поддержка на трассе</span></div>
+            <div class="role-option" data-id="1004" data-name="Поддержка на трассе"><input type="checkbox"> <span>Поддержка на трассе</span></div>
             
             <div class="group-label">Дополнительные позиции</div>
             <div class="role-option" data-id="8" data-name="Подготовка мероприятия"><input type="checkbox"> <span>Подготовка мероприятия</span></div>
@@ -314,9 +313,9 @@
         <div id="marshal_container" style="display:none;">
             <label>Где будет стоять Маршал?</label>
             <select id="marshal_select" onchange="handleMarshalSelect()">
-                <option value="Сзади ФОКа">Сзади ФОКа</option>
-                <option value="Спереди ФОКа">Спереди ФОКа</option>
-                <option value="На перекрестке у детской площадки">На перекрестке</option>
+                <option value="Точка 1">Точка 1</option>
+                <option value="Точка 2">Точка 2</option>
+                <option value="Точка 3">Точка 3</option>
                 <option value="custom">Свой вариант...</option>
             </select>
         </div>
@@ -391,7 +390,7 @@
 
 <script>
     vkBridge.send("VKWebAppInit");
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAcxK292cItTfyf8NDxfDmvYH9-yaLByMNbOB5Wvs_kZLgfxqaFYApXrCYwB45X51VqQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAEsi9TvvS6dpbTfqt0O8F0_M1nLumvHNQK25eZ0q2uhn8-00PFXpDCOby6Wx68kt-2g/exec';
     const GITHUB_IMG_BASE = 'https://raw.githubusercontent.com/Weifox1307/5verst_stankozavod_bot_vk/main/';
     let selectedVolunteer = null;
     let vkUser = null;
