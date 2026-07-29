@@ -51,7 +51,7 @@
         .vol-role-badge { background: #f0f2ff; color: var(--primary); padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; width: fit-content; }
         .vol-name-txt { font-weight: 600; font-size: 14px; color: #333; }
         .vol-comment-txt { font-size: 12px; color: #E6564C; font-style: italic; }
-        .btn-delete { background: #feebeb; color: #E6564C; border: 1px solid #ffdada; padding: 8px 12px; border-radius: 10px; font-size: 11px; font-weight: bold; cursor: pointer; }
+        .btn-delete { background: #feebeb; color: #E6564C; border: 1px solid #ffdada; padding: 10px 14px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none;-webkit-user-select: none;touch-action: manipulation;}
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; padding: 20px; box-sizing: border-box; }
         .modal-content { background: #ffffff !important; padding: 25px; border-radius: 24px; width: 100%; max-width: 320px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3); color: #333; text-align: center; }
         .close-modal { margin-top: 20px; color: white; font-weight: bold; cursor: pointer; text-decoration: underline; font-size: 15px; }
@@ -707,27 +707,63 @@
                     <span class="vol-name-txt">${item.full_name} ${item.comment ? '('+item.comment+')' : ''}</span>
                     <span class="vol-role-badge">${item.role_name}</span>
                 </div>
-                ${isMine ? `<button class="btn-delete" onclick="deleteMyRole('${item.role_id}', '${item.role_name}', '${item.full_name}', '${item.verst_id}')">Отмена</button>` : ''}
+                ${isMine ? `<button class="btn-delete" onclick="deleteMyRole('${item.role_id}', '${item.role_name}', '${item.full_name}', '${item.verst_id}', this)">Отмена</button>` : ''}
             `;
             container.appendChild(div);
         });
     }
 
-    async function deleteMyRole(rid, rname, fname, verst_id) {
-        if (confirm(`Отменить запись ${fname}?`)) {
-            // Передаем и vk_id и verst_id для надежного удаления
+    async function deleteMyRole(rid, rname, fname, verst_id, btnElement) {
+    // 1. Быстрое подтверждение без вызова тормозящего confirm() в iOS
+    if (btnElement && !btnElement.dataset.confirming) {
+        btnElement.dataset.confirming = "true";
+        btnElement.innerText = "Точно?";
+        btnElement.style.background = "#E6564C";
+        btnElement.style.color = "#ffffff";
+        
+        // Возвращаем исходную кнопку через 3 секунды, если повторно не нажали
+        setTimeout(() => {
+            if (btnElement) {
+                delete btnElement.dataset.confirming;
+                btnElement.innerText = "Отмена";
+                btnElement.style.background = "#feebeb";
+                btnElement.style.color = "#E6564C";
+                }
+            }, 3000);
+            return;
+        }
+
+        // 2. Блокируем кнопку во избежание дабл-кликов
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerText = "⌛...";
+        }
+    
+        try {
+            const payload = { 
+                action: "delete", 
+                vk_id: vkUser.id, 
+                verst_id: verst_id,
+                role_id: rid, 
+                role_name: rname, 
+                person_name: fname 
+            };
+    
+            // 3. Передаем text/plain для защиты от захода в CORS preflight в Safari
             await fetch(SCRIPT_URL, { 
                 method: 'POST', 
-                body: JSON.stringify({ 
-                    action: "delete", 
-                    vk_id: vkUser.id, 
-                    verst_id: verst_id,
-                    role_id: rid, 
-                    role_name: rname, 
-                    person_name: fname 
-                }) 
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload) 
             });
+    
+            // 4. Перезагружаем интерфейс строго после выполнения запроса
             location.reload();
+        } catch (e) {
+            alert("Ошибка при отмене записи. Попробуйте еще раз.");
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerText = "Отмена";
+            }
         }
     }
 
